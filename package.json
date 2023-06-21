@@ -1,0 +1,57 @@
+{
+  "name": "podocasts_live_app",
+  "version": "0.3.30",
+  "private": true,
+  "homepage": "",
+  "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@videosdk.live/react-sdk": "^0.1.73",
+    "@videosdk.live/videosdk-media-processor-web": "^0.0.12",
+    "compressorjs": "^1.1.1",
+    "emoji-mart": "^3.0.1",
+    "fabric": "^4.6.0",
+    "hls.js": "^1.1.5",
+    "i18next": "^22.4.10",
+    "jackal.js": "^2.0.3",
+    "notistack": "^1.0.10",
+    "react": "^17.0.2",
+    "react-color": "^2.19.3",
+    "react-device-detect": "^1.17.0",
+    "react-dom": "^17.0.2",
+    "react-emoji-render": "^1.2.4",
+    "react-i18next": "^12.1.5",
+    "react-lines-ellipsis": "^0.15.0",
+    "react-linkify": "0.2.2",
+    "react-lottie": "^1.2.3",
+    "react-motion": "^0.5.2",
+    "react-player": "^2.9.0",
+    "react-responsive": "^9.0.0-beta.4",
+    "react-scripts": "4.0.3",
+    "react-use-clipboard": "^1.0.7",
+    "react-virtualized": "^9.22.3",
+    "react-visibility-sensor": "^5.1.1",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts --max_old_space_size=4096 start",
+    "build": "react-scripts --max_old_space_size=4096 build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
+}
