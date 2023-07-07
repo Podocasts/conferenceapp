@@ -1,16 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import generateMuiTheme from "./mui/theme";
 import { ThemeProvider } from "@material-ui/styles";
-import WrapApp from "./WrapApp";
+import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={generateMuiTheme()}>
-      <WrapApp />
+      <App />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

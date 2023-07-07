@@ -1,5 +1,4 @@
 import { makeStyles, useTheme } from "@material-ui/core";
-import { SnackbarProvider } from "notistack";
 import {
   useContext,
   createContext,
@@ -400,28 +399,7 @@ export const MeetingAppProvider = ({
         videoProcessor,
       }}
     >
-      <SnackbarProvider
-        className={classes.container}
-        autoHideDuration={5000}
-        style={{
-          backgroundColor:
-            appTheme === appThemes.DARK
-              ? theme.palette.darkTheme.seven
-              : appTheme === appThemes.LIGHT
-              ? theme.palette.lightTheme.main
-              : "",
-          color:
-            appTheme === appThemes.LIGHT &&
-            theme.palette.lightTheme.contrastText,
-        }}
-        maxSnack={3}
-        anchorOrigin={{
-          vertical: isTab || isMobile ? "top" : "bottom",
-          horizontal: "left",
-        }}
-      >
-        {children}
-      </SnackbarProvider>
+      {children}
     </MeetingAppContext.Provider>
   );
 };

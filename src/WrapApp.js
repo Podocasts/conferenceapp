@@ -1,7 +1,7 @@
 import { Box, Button } from "@material-ui/core";
 import { useState } from "react";
 import App from "./App";
-import Logo from "./assets/logo.png"
+import Logo from "./assets/logo.png";
 const WrapApp = () => {
   const [mode, setMode] = useState();
   const handleClick = (key) => {
@@ -19,12 +19,12 @@ const WrapApp = () => {
         backgroundImage: "radial-gradient(circle, #012, #000 55em)",
         backgroundColor: "#000",
         height: "100vh",
-        padding:"20px",
-        boxSizing:"border-box",
+        padding: "20px",
+        boxSizing: "border-box",
       }}
     >
-    <img src ={Logo} className="blur-border"/>
-    <h2 className="animation">Podocast Live Stream App</h2>
+      <img src={Logo} className="blur-border" />
+      <h2 className="animation">Amuse Live Stream App</h2>
       <Box
         style={{
           display: "flex",
@@ -32,19 +32,19 @@ const WrapApp = () => {
           gap: "20px",
           minWidth: "300px",
           maxWidth: "600px",
-          width:"100%"
+          width: "100%",
         }}
       >
         <Button
           variant="outlined"
-          style={{ color: "white",fontSize:"20px",padding:"10px" }}
+          style={{ color: "white", fontSize: "20px", padding: "10px" }}
           onClick={() => handleClick("CONFERENCE")}
         >
           Join with Admin
         </Button>
         <Button
           variant="outlined"
-          style={{ color: "white",fontSize:"20px",padding:"10px" }}
+          style={{ color: "white", fontSize: "20px", padding: "10px" }}
           onClick={() => handleClick("VIEWER")}
         >
           Join with Viewer

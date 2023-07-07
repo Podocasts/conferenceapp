@@ -48,6 +48,7 @@ import PollsListner from "../components/PollListner";
 import RecordingLoader from "../components/RecordingLoader";
 import useCustomTrack from "../utils/useCustomTrack";
 import ResolutionListner from "../components/ResolutionListner";
+import AlertDialog from "../components/AlertModal";
 
 const getPinMsg = ({
   localParticipant,
@@ -88,9 +89,10 @@ const getPinMsg = ({
   }
 };
 
-const MeetingContainer = () => {
+const MeetingContainer = ({ walletinfo, meetingId }) => {
   const showJoinNotificationRef = useRef(false);
   const localParticipantAutoPinnedOnShare = useRef(false);
+  const [open, setOpen] = useState(false);
 
   const mMeetingRef = useRef();
 
@@ -465,25 +467,29 @@ const MeetingContainer = () => {
   };
 
   const _handleParticipantJoined = (data) => {
-    // if (showJoinNotificationRef.current) {
-    //   const { displayName } = data;
-    // if (notificationSoundEnabled) {
-    //   new Audio(`https://static.videosdk.live/prebuilt/notification.mp3`).play();
-    // }
-    // if (notificationAlertsEnabled) {
-    //   enqueueSnackbar(`${displayName} joined the meeting`, {});
-    // }
-    // }
+    if (showJoinNotificationRef.current) {
+      const { displayName } = data;
+      if (notificationSoundEnabled) {
+        new Audio(
+          `https://static.videosdk.live/prebuilt/notification.mp3`
+        ).play();
+      }
+      if (notificationAlertsEnabled) {
+        enqueueSnackbar(`${displayName} joined the meeting`, {});
+      }
+    }
   };
 
   const _handleParticipantLeft = (data) => {
-    // const { displayName } = data;
-    // if (notificationSoundEnabled) {
-    // new Audio(`https://static.videosdk.live/prebuilt/notification.mp3`).play();
-    // }
-    // if (notificationAlertsEnabled) {
-    // enqueueSnackbar(`${displayName} left the meeting`, {});
-    // }
+    const { displayName } = data;
+    if (notificationSoundEnabled) {
+      new Audio(
+        `https://static.videosdk.live/prebuilt/notification.mp3`
+      ).play();
+    }
+    if (notificationAlertsEnabled) {
+      enqueueSnackbar(`${displayName} left the meeting`, {});
+    }
   };
 
   const _handlePresenterChanged = (presenterId) => {
@@ -576,16 +582,7 @@ const MeetingContainer = () => {
           : "Meeting recording is stopped."
       );
       if (status === Constants.recordingEvents.RECORDING_STOPPED) {
-        try {
-          await fetch("https://podocast-api.onrender.com/api/recording", { method: "get" })
-            .then((res) => res.json())
-            .then((response) => {
-              console.log(response,response[response.length - 1] );
-              alert(response[response.length - 1]?.recording);
-            });
-        } catch (err) {
-          console.log(err);
-        }
+        setOpen(true);
       }
     }
   };
@@ -829,7 +826,12 @@ const MeetingContainer = () => {
         title={`Error Code: ${meetingError.code}`}
         subTitle={meetingError.message}
       />
-
+      <AlertDialog
+        open={open}
+        setOpen={setOpen}
+        walletinfo={walletinfo}
+        roomId={meetingId}
+      />
       {typeof localParticipantAllowedJoin === "boolean" ? (
         localParticipantAllowedJoin ? (
           <>

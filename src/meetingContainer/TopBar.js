@@ -631,13 +631,12 @@ const RecordingBTN = ({ isMobile, isTab }) => {
 
     const layout = { type, priority, gridSize };
 
-  startRecording(recordingWebhookUrl, recordingAWSDirPath, {
+    startRecording(recordingWebhookUrl, recordingAWSDirPath, {
       layout,
       theme: recordingTheme,
     });
   };
 
-  
   const _handleClick = async () => {
     const isRecording = isRecordingRef.current;
 
