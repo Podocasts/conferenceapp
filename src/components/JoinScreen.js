@@ -129,6 +129,8 @@ export default function JoinMeeting({
   setSelectedWebcam,
   mode,
   appTheme,
+  meetingID,
+  participantCanToggleRecording,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -761,6 +763,8 @@ export default function JoinMeeting({
                   }}
                   isXLOnly={isXLOnly}
                   appTheme={appTheme}
+                  meetingID={meetingID}
+                  participantCanToggleRecording={participantCanToggleRecording}
                 />
               </Box>
             </Grid>

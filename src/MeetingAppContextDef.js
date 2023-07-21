@@ -153,6 +153,7 @@ export const MeetingAppProvider = ({
   screenShareResolution,
   screenShareOptimizationMode,
   micQuality,
+  oldmeetingId,
 }) => {
   const containerRef = useRef();
   const endCallContainerRef = useRef();
@@ -397,6 +398,7 @@ export const MeetingAppProvider = ({
         setMeetingResolution,
 
         videoProcessor,
+        oldmeetingId,
       }}
     >
       {children}

@@ -30,6 +30,7 @@ import useIsLGDesktop from "../../utils/useIsLGDesktop";
 import ReactPlayer from "react-player";
 import NetworkIcon from "../../icons/NetworkIcon";
 import { CloseOutlined } from "@material-ui/icons";
+import { BsFillClipboard2Fill, BsCheckLg } from "react-icons/bs";
 
 const useStyles = makeStyles({
   popoverHover: {
@@ -43,6 +44,69 @@ const useStyles = makeStyles({
     },
   },
 });
+
+const MeetingIdCopyBTN = ({ oldmeetingId }) => {
+  const [isCopied, setIsCopied] = useState(false);
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "0px 4px 4px 0px",
+        position: "absolute",
+        right: "50px",
+        bottom: "14px",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "4px",
+          paddding: "2px",
+          borderColor: "gray",
+        }}
+      >
+        <div
+          style={{
+            color: "white",
+            textAlign: "center",
+            fontSize: "20px",
+          }}
+        >
+          {oldmeetingId}
+        </div>
+        <button
+          style={{
+            marginLeft: "2px",
+            background: "none",
+            border: "none",
+            outline: "none",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          onClick={() => {
+            navigator.clipboard.writeText(oldmeetingId);
+            setIsCopied(true);
+            setTimeout(() => {
+              setIsCopied(false);
+            }, 3000);
+          }}
+        >
+          {isCopied ? (
+            <BsCheckLg style={{ color: "green", fontSize: "16px" }} />
+          ) : (
+            <BsFillClipboard2Fill
+              style={{ fontSize: "16px", color: "white" }}
+            />
+          )}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export const CornerDisplayName = ({
   participantId,
@@ -79,8 +143,8 @@ export const CornerDisplayName = ({
     alwaysShowOverlay,
     networkBarEnabled,
     appTheme,
+    oldmeetingId,
   } = useMeetingAppContext();
-
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -310,7 +374,7 @@ export const CornerDisplayName = ({
             justifyContent: "center",
             display: "flex",
             alignItems: "center",
-            // lineHeight: 1,
+            lineHeight: 1,
             color:
               appTheme === appThemes.LIGHT &&
               theme.palette.lightTheme.contrastText,
@@ -361,7 +425,7 @@ export const CornerDisplayName = ({
           </div>
         )}
       </div>
-
+      <MeetingIdCopyBTN oldmeetingId={oldmeetingId} />
       {canPin && (
         <div
           className="pinClass"

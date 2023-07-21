@@ -24,7 +24,7 @@ const WrapApp = () => {
       }}
     >
       <img src={Logo} className="blur-border" />
-      <h2 className="animation">Amuse Live Stream App</h2>
+      <h2 className="animation">aMuse Live Stream App</h2>
       <Box
         style={{
           display: "flex",

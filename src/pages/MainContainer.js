@@ -31,6 +31,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LogoImage from "../assets/logo.png";
 import { WalletHandler } from "jackal.js";
+import { addUser } from "../action/user";
 
 const MainContainer = ({ mode, meetingID, recordingFlg }) => {
   const [meetingIdValidation, setMeetingIdValidation] = useState({
@@ -117,6 +118,8 @@ const MainContainer = ({ mode, meetingID, recordingFlg }) => {
 
     // Hooking up the wallet to your app
     const wallet = await WalletHandler.trackWallet(walletConfig);
+    const walletaddress = await wallet.getAccounts();
+    addUser(walletaddress[0]?.address);
     setWalletinfo(wallet);
   };
 
@@ -126,7 +129,7 @@ const MainContainer = ({ mode, meetingID, recordingFlg }) => {
 
     const paramKeys = {
       token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI5ZjgyMjE5My0zMzA4LTRlOWYtYmFhMi03Zjc0ODA3NjUyYmUiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY4NzE5MTU3MywiZXhwIjoxNzE4NzI3NTczfQ.9sgLn5kCsX2XOcOS8RgpQNTSVDXC-EPMXG56LAX1BoI",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIwYmNjNGE1ZC04N2Q5LTQ3ZWYtOTliYy03NWY0MGYyNTQzNTgiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTY4OTcwMDA3NywiZXhwIjoxODQ3NDg4MDc3fQ.k85RtzCg9FO7KkZyX6wdqBkGSeTQCSLtor9PMokvMUM",
       micEnabled: "true",
       webcamEnabled: "true",
       name: "",
@@ -153,7 +156,7 @@ const MainContainer = ({ mode, meetingID, recordingFlg }) => {
         recordingFlg && recordingFlg === 1 ? "true" : "false",
       brandingEnabled: "true",
       brandLogoURL: LogoImage,
-      brandName: "Amuse",
+      brandName: "aMuse",
       participantCanLeave: "true",
       poweredBy: "false",
       liveStreamEnabled: "false",
@@ -168,7 +171,7 @@ const MainContainer = ({ mode, meetingID, recordingFlg }) => {
       askJoin: "false",
       joinScreenEnabled: "true",
       joinScreenMeetingUrl: "",
-      joinScreenTitle: "Amuse",
+      joinScreenTitle: "aMuse",
       notificationSoundEnabled: "true",
       canPin: "true",
       canCreatePoll: "false",
@@ -833,6 +836,7 @@ const MainContainer = ({ mode, meetingID, recordingFlg }) => {
             screenShareResolution: paramKeys.screenShareResolution,
             screenShareOptimizationMode: paramKeys.screenShareOptimizationMode,
             micQuality: paramKeys.micQuality,
+            oldmeetingId: paramKeys.meetingId,
           }}
         >
           <MeetingProvider
@@ -907,6 +911,10 @@ const MainContainer = ({ mode, meetingID, recordingFlg }) => {
           }
           mode={paramKeys.mode}
           appTheme={paramKeys.theme}
+          meetingID={paramKeys.meetingId}
+          participantCanToggleRecording={
+            paramKeys.participantCanToggleRecording
+          }
         />
       ) : (
         <ClickAnywhereToContinue

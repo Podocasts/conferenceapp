@@ -2,6 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import PageIndex from "./pages";
 import { SnackbarProvider } from "notistack";
 import { makeStyles, useTheme } from "@material-ui/core";
+import { getUser } from "./action/user";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
   },
 }));
-
+getUser();
 const App = () => {
   const classes = useStyles();
   const theme = useTheme();

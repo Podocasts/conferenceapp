@@ -3,30 +3,33 @@ import { useRef, useState } from "react";
 import MainContainer from "./MainContainer";
 import Logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { styled } from "styled-components";
 
 const WrapApp = () => {
-  const [mode, setMode] = useState();
+  const [mode, setMode] = useState("CONFERENCE");
   const [meetingID, setMeetingID] = useState();
   const [recordingFlg, setRecordingFlg] = useState();
   const navigate = useNavigate();
 
-  const ref = useRef("");
+  const ref = useRef();
+  ref.current = null;
   const handleClick = (key) => {
     setMode(key);
   };
-  const handleClick4 = () => {
-    navigate("/dashboard");
+  const handleClick4 = (path) => {
+    navigate(path);
   };
   const handleClick2 = () => {
-    !ref?.current
+    ref.current.value === ""
       ? alert("Please enter meeting ID")
-      : setMeetingID(ref.current);
+      : setMeetingID(ref.current.value);
   };
   const handleClick3 = (flag) => {
+    if (flag === 1) {
+      const r = (Math.random() + 1).toString(36).substring(2);
+      setMeetingID(r);
+    }
     setRecordingFlg(flag);
-  };
-  const handleChange = (e) => {
-    ref.current = e.target.value;
   };
   return mode && meetingID ? (
     <MainContainer
@@ -51,22 +54,33 @@ const WrapApp = () => {
         position: "relative",
       }}
     >
-      <Button
-        variant="outlined"
-        style={{
-          color: "white",
-          fontSize: "20px",
-          padding: "10px 20px",
-          position: "absolute",
-          right: "20px",
-          top: "30px",
-        }}
-        onClick={handleClick4}
-      >
-        Go to Storage Dashboard
-      </Button>
+      <ButtonWrapper>
+        <Button
+          variant="outlined"
+          style={{
+            color: "white",
+            fontSize: "20px",
+            padding: "10px 20px",
+          }}
+          onClick={() => handleClick4("/dashboard")}
+        >
+          Go to Storage Dashboard
+        </Button>
+        <Button
+          variant="outlined"
+          style={{
+            color: "white",
+            fontSize: "20px",
+            padding: "10px 20px",
+          }}
+          onClick={() => handleClick4("/billing")}
+        >
+          Go to Storage Billing
+        </Button>
+      </ButtonWrapper>
+
       <img src={Logo} className="blur-border" />
-      <h2 className="animation">Amuse Live Stream App</h2>
+      <h2 className="animation">aMuse Video Conference App</h2>
       {mode && !meetingID ? (
         mode === "VIEWER" || (mode === "CONFERENCE" && recordingFlg) ? (
           <Box
@@ -82,7 +96,6 @@ const WrapApp = () => {
             <input
               placeholder="Enter Meeting ID"
               ref={ref}
-              onChange={handleChange}
               style={{
                 background: "none",
                 border: "1px solid rgba(255, 255, 255, 0.23)",
@@ -120,14 +133,14 @@ const WrapApp = () => {
                 style={{ color: "white", fontSize: "20px", padding: "10px" }}
                 onClick={() => handleClick3(1)}
               >
-                Join with Creator
+                Create Meeting
               </Button>
               <Button
                 variant="outlined"
                 style={{ color: "white", fontSize: "20px", padding: "10px" }}
                 onClick={() => handleClick3(2)}
               >
-                Join with Friends
+                Join Meeting
               </Button>
             </Box>
           </>
@@ -164,5 +177,19 @@ const WrapApp = () => {
     </Box>
   );
 };
+const ButtonWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  gap: 30px;
 
+  box-sizing: border-box;
+  @media screen and (max-width: 600px) {
+    flex-direction: column-reverse;
+    width: 100%;
+    right: 0px;
+    padding: 30px;
+  }
+`;
 export default WrapApp;

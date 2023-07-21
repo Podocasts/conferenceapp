@@ -31,14 +31,13 @@ const ShowerDialog = ({ setModalFlag, modalFlag, base64Data }) => {
             padding: 10,
             backgroundColor: "rgb(35 45 69)",
             borderRadius: "4px",
-            minHeight: "600px",
             minWidth: "600px",
           }}
         >
           <DialogTitle id="alert-dialog-title">
             {"What is Lorem Ipsum?"}
           </DialogTitle>
-          <Box style={{ height: "600px", textAlign: "center" }}>
+          <Box style={{ textAlign: "center" }}>
             {" "}
             {base64Data && (
               <FileViewer
@@ -49,9 +48,9 @@ const ShowerDialog = ({ setModalFlag, modalFlag, base64Data }) => {
           </Box>
 
           <DialogActions>
-            <Button onClick={handleSave} autoFocus>
+            {/* <Button onClick={handleSave} autoFocus>
               Save
-            </Button>
+            </Button> */}
             <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Box>

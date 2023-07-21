@@ -50,6 +50,8 @@ export default function MeetingDetailModal({
   meetingTitle,
   meetingUrl,
   appTheme,
+  meetingID,
+  participantCanToggleRecording,
 }) {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -244,7 +246,30 @@ export default function MeetingDetailModal({
         </div>
       ) : null}
 
-      <Box mt={meetingTitle || meetingUrl ? 2 : 0} style={{ width: "100%" }}>
+      <Box
+        mt={meetingTitle || meetingUrl ? 2 : 0}
+        style={{
+          display: "flex",
+          width: "100%",
+          gap: "10px",
+          flexDirection: "column",
+        }}
+      >
+        {participantCanToggleRecording === "true" && (
+          <TextField
+            id={"inputJoin"}
+            variant="outlined"
+            fullWidth
+            value={meetingID}
+            style={{ textAlign: "center" }}
+            classes={{
+              root:
+                appTheme === appThemes.LIGHT
+                  ? classes.textFieldLight
+                  : classes.textField,
+            }}
+          />
+        )}
         <TextField
           id={"inputJoin"}
           placeholder={t("Enter your name")}

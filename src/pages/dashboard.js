@@ -30,6 +30,8 @@ import { useSnackbar } from "notistack";
 import { Divider } from "@material-ui/core";
 import ShowerDialog from "../components/ShowerModal";
 import { useNavigate } from "react-router-dom";
+import { addUser } from "../action/user";
+import LoadingVideo from "../components/Loading";
 
 const Dashboard = () => {
   const [rowData, setRowData] = useState();
@@ -117,7 +119,7 @@ const Dashboard = () => {
     const wallet = await WalletHandler.trackWallet(walletConfig);
     const storage = await StorageHandler.trackStorage(wallet);
     const walletaddress = await wallet.getAccounts();
-
+    addUser(walletaddress[0]?.address);
     const data = await storage.getStoragePaymentInfo(walletaddress[0]?.address);
     console.log(data, "DAdafasfa");
     if (data?.spaceAvailable === 0) {
@@ -139,12 +141,14 @@ const Dashboard = () => {
   const ref2 = useOutsideClick(handleClickOutside2);
   const handleCreateFolder = async () => {
     if (foldername) {
+      setLoading(true);
       const fileIo = await FileIo.trackIo(walletinfo, "1.0.x");
       const parent = await fileIo.downloadFolder(selectParentFolder);
       const listOfFolders = [`${foldername}`];
       console.log(listOfFolders, "listOfFolders");
       await fileIo.createFolders(parent, listOfFolders);
       setRefreshFlag(!refreshflag);
+      setLoading(false);
       enqueueSnackbar("New Folder Uploaded");
       setCreatFileFlag(false);
     } else {
@@ -152,6 +156,7 @@ const Dashboard = () => {
     }
   };
   const handleDownload = async (filename) => {
+    setLoading(true);
     const fileIo = await FileIo.trackIo(walletinfo, "1.0.x");
     const walletaddress = await walletinfo.getAccounts();
     const file = await fileIo.downloadFile(
@@ -171,9 +176,11 @@ const Dashboard = () => {
     link.download = filename;
     link.click();
     setRefreshFlag(!refreshflag);
+    setLoading(false);
     enqueueSnackbar("File Download Successful");
   };
   const handleShower = async (filename) => {
+    setLoading(true);
     const fileIo = await FileIo.trackIo(walletinfo, "1.0.x");
     const walletaddress = await walletinfo.getAccounts();
     const file = await fileIo.downloadFile(
@@ -194,6 +201,8 @@ const Dashboard = () => {
       type: filename?.substring(filename?.lastIndexOf(".") + 1),
     };
     console.log(data, "base64");
+    setLoading(false);
+
     setBase64Data(data);
     setModalFlag(true);
   };
@@ -231,14 +240,16 @@ const Dashboard = () => {
   //   const file = await fileIo.downloadFolder(filename);
   //   console.log(file);
   // };
-  const handleChangePath = () => {
-    navigate("/");
+  const handleChangePath = (path) => {
+    navigate(path);
   };
   const handleDelete = async (filename) => {
+    setLoading(true);
     const fileIo = await FileIo.trackIo(walletinfo, "1.0.x");
     const parent = await fileIo.downloadFolder(selectParentFolder);
     await fileIo.deleteTargets([filename], parent);
     setRefreshFlag(!refreshflag);
+    setLoading(false);
     enqueueSnackbar(`${filename?.toUppercase()} is Deleted`);
   };
   const convertBase64 = (file) => {
@@ -255,6 +266,8 @@ const Dashboard = () => {
   };
 
   const handleSelectParent = async (walletinfo, item) => {
+    setLoading(true);
+
     const fileIo = await FileIo.trackIo(walletinfo, "1.0.x");
     const parentFolderPath = item; // replace this with your own path
     setSelectParentFolder(parentFolderPath);
@@ -268,11 +281,14 @@ const Dashboard = () => {
     setSearchDataFolder(folderdata);
     setRowData(data);
     setSearchDataFiles(data);
+    setLoading(false);
   };
 
   const handleClick = async (walletinfo) => {
     if (!selectedFile)
       return enqueueSnackbar("Please Select File using Uploader ");
+    setLoading(true);
+
     const fileName = selectedFile?.name;
     const fileIo = await FileIo.trackIo(walletinfo, "1.0.x");
 
@@ -302,10 +318,11 @@ const Dashboard = () => {
     });
     setRefreshFlag(!refreshflag);
     setSelectedFile("");
+    setLoading(false);
     enqueueSnackbar("New File Uploaded!");
   };
-
-  return walletinfo ? (
+  console.log(Loading, "Loading");
+  return walletinfo && !Loading ? (
     <Wrapper>
       <HearderContainer>
         <IconImage
@@ -316,12 +333,20 @@ const Dashboard = () => {
             borderRadius: "50%",
           }}
         ></IconImage>
-        <UploadButton
-          style={{ width: "150px", margin: "10px 0px" }}
-          onClick={handleChangePath}
-        >
-          Go to App
-        </UploadButton>
+        <ButtonWrapper>
+          <UploadButton
+            style={{ width: "150px", margin: "10px 0px" }}
+            onClick={() => handleChangePath("/")}
+          >
+            Go to App
+          </UploadButton>
+          <UploadButton
+            style={{ width: "150px", margin: "10px 0px" }}
+            onClick={() => handleChangePath("/billing")}
+          >
+            Go to Pay
+          </UploadButton>
+        </ButtonWrapper>
       </HearderContainer>
 
       <Paper
@@ -580,7 +605,7 @@ const Dashboard = () => {
       />
     </Wrapper>
   ) : (
-    <Wrapper />
+    <LoadingVideo />
   );
 };
 
@@ -761,6 +786,12 @@ const Title = styled.div`
 const NameWrapper = styled.div`
   color: white;
   display: flex;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+
+  gap: 30px;
 `;
 
 export default Dashboard;
