@@ -1,14 +1,16 @@
-import Dashboard from "./dashboard";
 import { Route, Routes } from "react-router-dom";
 import WrapApp from "./WrapApp";
-import Billing from "./billing";
+import DashboardContainer from "./Dashboard";
+import BillingContainer from "./Billing";
+import ScheduleContainer from "./Schedule";
 
 const Router = () => {
   return (
     <Routes>
       <Route index path="/" element={<WrapApp />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/billing" element={<Billing />} />
+      <Route path="/dashboard" element={<DashboardContainer />} />
+      <Route path="/billing" element={<BillingContainer />} />
+      <Route path="/schedule" element={<ScheduleContainer />} />
     </Routes>
   );
 };

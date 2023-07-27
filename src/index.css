@@ -190,3 +190,11 @@ input[type="time"]:focus-visible{
 .MuiDialogContentText-root	{
   color: rgb(255, 255, 255,0.5) !important;
 }
+
+/* .Appointment-clickableAppointment{
+  background-color: #2890e3 !important;
+
+}
+.Appointment-shadedAppointment{
+  background-color: #90caf9 !important;
+} */
